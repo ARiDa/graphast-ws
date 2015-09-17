@@ -1,4 +1,4 @@
-package br.ufc.quixada.npi.enumeration;
+package org.graphast.ws.enumeration;
 
 public enum ResponseStatus {
 	

@@ -1,6 +1,6 @@
-package br.ufc.quixada.npi.model;
+package org.graphast.ws.model;
 
-import br.ufc.quixada.npi.enumeration.ResponseStatus;
+import org.graphast.ws.enumeration.ResponseStatus;
 
 public class ResponseStatusMessage {
 

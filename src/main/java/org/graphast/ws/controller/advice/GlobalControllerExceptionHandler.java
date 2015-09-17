@@ -1,7 +1,8 @@
-package br.ufc.quixada.spa.controller.advice;
+package org.graphast.ws.controller.advice;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.graphast.ws.model.ResponseStatusMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.AnnotationUtils;
@@ -10,8 +11,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
-import br.ufc.quixada.npi.model.ResponseStatusMessage;
 
 @ControllerAdvice
 public class GlobalControllerExceptionHandler {
@@ -30,7 +29,7 @@ public class GlobalControllerExceptionHandler {
 			throw e;
 
 		log.debug(e.getMessage(), e);
-		return new ResponseStatusMessage(br.ufc.quixada.npi.enumeration.ResponseStatus.ERROR, e.getMessage());
+		return new ResponseStatusMessage(org.graphast.ws.enumeration.ResponseStatus.ERROR, e.getMessage());
 	}
 
 }

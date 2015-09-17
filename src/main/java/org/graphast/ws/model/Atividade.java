@@ -1,8 +1,5 @@
-package br.ufc.quixada.spa.model;
+package org.graphast.ws.model;
 
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Atividade {
 
@@ -12,13 +9,11 @@ public class Atividade {
 		this.id = id;
 	}
 	
-	public Atividade(Integer id, String nome, Integer qtdVagas,
-			List<Participante> participantes) {
+	public Atividade(Integer id, String nome, Integer qtdVagas) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.qtdVagas = qtdVagas;
-		this.participantes = participantes;
 	}
 
 	private Integer id;
@@ -27,10 +22,6 @@ public class Atividade {
 	
 	private Integer qtdVagas;
 
-	@JsonIgnore
-	private List<Participante> participantes;
-	
-	
 	public Integer getId() {
 		return id;
 	}
@@ -45,14 +36,6 @@ public class Atividade {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public List<Participante> getParticipantes() {
-		return participantes;
-	}
-
-	public void setParticipantes(List<Participante> participantes) {
-		this.participantes = participantes;
 	}
 
 	public int getQtdVagas() {

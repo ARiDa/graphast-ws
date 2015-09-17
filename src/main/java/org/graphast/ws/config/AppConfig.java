@@ -1,4 +1,4 @@
-package br.ufc.quixada.spa.config;
+package org.graphast.ws.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 @EnableWebMvc
 @Configuration
-@ComponentScan(	basePackages = {  "br.ufc" } )
+@ComponentScan(	basePackages = {  "org.graphast.ws" } )
 public class AppConfig extends WebMvcConfigurerAdapter {
 
 	@Override

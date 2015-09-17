@@ -1,4 +1,4 @@
-package br.ufc.quixada.spa.filter;
+package org.graphast.ws.filter;
 
 import java.io.IOException;
 
