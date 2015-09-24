@@ -7,6 +7,7 @@
 
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
+	
 
 	<dependencies>
 		<!-- Java EE / Java SE dependencies -->
@@ -21,6 +22,11 @@
 			<artifactId>javax.inject</artifactId>
 			<version>1</version>
 		</dependency>
+		<!-- <dependency>
+    		<groupId>org.graphast</groupId>
+    		<artifactId>graphast-core</artifactId>
+    		<version>0.1.5</version>
+		</dependency> -->
 
 		<!-- Logging with SLF4J -->
 		<dependency>
@@ -28,6 +34,7 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.7.10</version>
 		</dependency>
+		
 
 		<!-- Spring -->
 		<dependency>

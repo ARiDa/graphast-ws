@@ -19,6 +19,10 @@ public class Instruction {
 		this.endInterval = endInterval;
 	}
 	
+	public Instruction() {
+		
+	}
+	
 	
 	public int getDirection() {
 		return direction;
