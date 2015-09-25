@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.inject.Named;
 
+import org.graphast.geometry.Point;
 import org.graphast.model.Graph;
 import org.graphast.query.route.shortestpath.AbstractShortestPathService;
 import org.graphast.query.route.shortestpath.dijkstra.DijkstraConstantWeight;
@@ -39,15 +40,47 @@ public class ShortestPathController {
 	}
 	
 	@RequestMapping(value="{lat1}/{long1}/{lat2}/{long2}", method = RequestMethod.GET)
-	public @ResponseBody String shortestPath(@PathVariable Double lat1, 
+	public @ResponseBody ShortestPathResult shortestPath(@PathVariable Double lat1, 
 			@PathVariable Double long1, @PathVariable Double lat2, @PathVariable Double long2) {
 		log.debug("Atividade - GET (id)");
 		Graph graph;
 		try {
 			graph = LoadedGraph.getInstance().getGraph();
 			//adição de geometrias para testes. lembrar de tirar. TODO
-			//graph.getEdge(69)
-			
+//			List<Point> geometry = new ArrayList<Point>();
+//			Point p = new Point(43.73873195568971,7.4251216650009155);
+//			geometry.add(p);
+//			graph.setEdgeGeometry(69, geometry);
+//			
+//			geometry = new ArrayList<Point>();
+//			p = new Point(43.73875521043556,7.425808310508728);
+//			geometry.add(p);
+//			graph.setEdgeGeometry(979,geometry);
+//			
+//			geometry = new ArrayList<Point>();
+//			p = new Point(43.73960400247777,7.425422072410583);
+//			geometry.add(p);
+//			graph.setEdgeGeometry(2,geometry);
+//
+//			geometry = new ArrayList<Point>();
+//			p = new Point(43.73992956335603,7.425282597541809);
+//			geometry.add(p);
+//			graph.setEdgeGeometry(527,geometry);
+//			
+//			geometry = new ArrayList<Point>();
+//			p = new Point(43.74156896801906,7.426870465278625);
+//			geometry.add(p);
+//			graph.setEdgeGeometry(934,geometry);
+//			
+//			geometry = new ArrayList<Point>();
+//			p = new Point(43.741956527572654,7.427353262901305);
+//			geometry.add(p);
+//			graph.setEdgeGeometry(776,geometry);
+//			
+//			geometry = new ArrayList<Point>();
+//			p = new Point(43.74312694219525,7.427841424942017);
+//			geometry.add(p);
+//			graph.setEdgeGeometry(139,geometry);
 			
 			AbstractShortestPathService sp = new DijkstraConstantWeight(graph);
 			long source = graph.getNodeId(lat1, long1);
@@ -58,12 +91,12 @@ public class ShortestPathController {
 			spr.generateResult(graph, path);
 			
 			
-			return spr.toString();
+			return spr;
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return "Impossible to load graph";
+		return null;
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)

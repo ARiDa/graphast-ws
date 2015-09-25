@@ -62,29 +62,43 @@ public class ShortestPathResult {
 			if(graph.getEdgeCost(e, 0) != null) {
 				this.cost += graph.getEdgeCost(e, 0);
 			}
-			for(int j = 0; j < e.getGeometry().size(); j++) {
-				Point p = new Point(e.getGeometry().get(j).getLatitude(),e.getGeometry().get(j).getLongitude());
-				this.geometry.add(p);
-			}
+			if(e.getGeometry() != null) { 
+				for(int j = 0; j < e.getGeometry().size(); j++) {
+					Point p = new Point(e.getGeometry().get(j).getLatitude(),e.getGeometry().get(j).getLongitude());
+					this.geometry.add(p);
+				}
+			}	
 		}
 		
 		
 		// instructions
 		int geometryIndex = -1;
+		int jAtual = -1;
 		for(int i = 0; i < path.getPath().size(); i++) {
 			String labelName = path.getPath().get(i).getLabel();
 			Instruction inst = new Instruction();
 			inst.setBeginInterval(geometryIndex+1);
-			for(int j = 0; j < path.getEdges().size(); j++) {
+			int j = jAtual+1;
+			boolean sair = false;
+			while(j < path.getEdges().size()) {
 				Edge e = graph.getEdge(path.getEdges().get(j));
 				if(e.getLabel().equals(labelName)) {
 					inst.setDistance(inst.getDistance() + e.getDistance());
 					if(graph.getEdgeCost(e, 0) != null) {
 						inst.setCost(inst.getCost() + graph.getEdgeCost(e, 0));
 					}
-					geometryIndex += e.getCosts().length;
+					if(e.getGeometry() != null) { 
+						geometryIndex += e.getGeometry().size();
+					}	
 					inst.setEndInterval(geometryIndex);
+					jAtual++;
+					sair = true;
+				}else {
+					if(sair = true) {
+						break;
+					}
 				}
+				j++;
 			}
 			inst.setDirection(path.getPath().get(i).getDirection());
 			inst.setLabel(labelName);
