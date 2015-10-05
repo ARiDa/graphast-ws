@@ -14,7 +14,7 @@ public class LoadedGraph {
 
 	private LoadedGraph() {	
 		super();
-	}
+	} 
 
 	public static LoadedGraph getInstance() throws IOException {
 		if (loadedGraph == null) {

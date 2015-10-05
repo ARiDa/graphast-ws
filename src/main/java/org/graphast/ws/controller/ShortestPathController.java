@@ -8,6 +8,8 @@ import javax.inject.Named;
 
 import org.graphast.model.Graph;
 import org.graphast.query.route.shortestpath.AbstractShortestPathService;
+import org.graphast.query.route.shortestpath.astar.AStar;
+import org.graphast.query.route.shortestpath.astar.AStarConstantWeight;
 import org.graphast.query.route.shortestpath.dijkstra.DijkstraConstantWeight;
 import org.graphast.query.route.shortestpath.model.Path;
 import org.graphast.ws.enumeration.ResponseStatus;
@@ -96,5 +98,32 @@ public class ShortestPathController {
 		log.debug("Updating Atividade: {}", atividade);
 		return new ResponseStatusMessage(ResponseStatus.SUCCESS, "Atividade atualizada com sucesso");
 	}
+	
+	@RequestMapping(value="a*/{lat1}/{long1}/{lat2}/{long2}", method = RequestMethod.GET)
+	public @ResponseBody ShortestPathResult shortestPathAStar(@PathVariable Double lat1, 
+			@PathVariable Double long1, @PathVariable Double lat2, @PathVariable Double long2) {
+		log.debug("Atividade - GET (id)");
+		Graph graph;
+		try {
+			graph = LoadedGraph.getInstance().getGraph();
+
+			
+			AbstractShortestPathService sp = new AStarConstantWeight(graph);
+			long source = graph.getNodeId(lat1, long1);
+			long target = graph.getNodeId(lat2, long2);
+			Path path = sp.shortestPath(source, target);
+			
+			ShortestPathResult spr = new ShortestPathResult();
+			spr.generateResult(graph, path);
+			
+			
+			return spr;
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	
 }
