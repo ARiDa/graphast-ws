@@ -35,7 +35,7 @@ public class KNNController {
 		log.debug("Atividade - GET (id)");
 		GraphBounds graph;
 		try {
-			graph = (GraphBounds)LoadedGraph.getInstance().getGraph();
+			graph = (GraphBounds)LoadedGraph.getInstanceMonaco().getGraph();
 			graph.createBounds();
 			
 			//calculate or load bounds

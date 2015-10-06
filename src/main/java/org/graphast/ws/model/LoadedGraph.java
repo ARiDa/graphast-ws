@@ -16,10 +16,19 @@ public class LoadedGraph {
 		super();
 	} 
 
-	public static LoadedGraph getInstance() throws IOException {
+	public static LoadedGraph getInstanceMonaco() throws IOException {
 		if (loadedGraph == null) {
 			loadedGraph = new LoadedGraph();
 			loadedGraph.graph = new GraphImpl(Configuration.USER_HOME + "/graphast/monaco");
+			loadedGraph.graph.load();
+		}
+		return loadedGraph;
+	}
+	
+	public static LoadedGraph getInstanceExample3() throws IOException {
+		if (loadedGraph == null) {
+			loadedGraph = new LoadedGraph();
+			loadedGraph.graph = new GraphImpl(Configuration.USER_HOME + "/graphast/example");
 			loadedGraph.graph.load();
 		}
 		return loadedGraph;

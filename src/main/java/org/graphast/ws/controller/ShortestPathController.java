@@ -1,17 +1,20 @@
 package org.graphast.ws.controller;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Named;
 
 import org.graphast.model.Graph;
 import org.graphast.query.route.shortestpath.AbstractShortestPathService;
-import org.graphast.query.route.shortestpath.astar.AStar;
 import org.graphast.query.route.shortestpath.astar.AStarConstantWeight;
 import org.graphast.query.route.shortestpath.dijkstra.DijkstraConstantWeight;
+import org.graphast.query.route.shortestpath.dijkstra.DijkstraLinearFunction;
 import org.graphast.query.route.shortestpath.model.Path;
+import org.graphast.util.DateUtils;
 import org.graphast.ws.enumeration.ResponseStatus;
 import org.graphast.ws.model.Atividade;
 import org.graphast.ws.model.LoadedGraph;
@@ -46,13 +49,41 @@ public class ShortestPathController {
 		log.debug("Atividade - GET (id)");
 		Graph graph;
 		try {
-			graph = LoadedGraph.getInstance().getGraph();
+			graph = LoadedGraph.getInstanceMonaco().getGraph();
 
 			
 			AbstractShortestPathService sp = new DijkstraConstantWeight(graph);
 			long source = graph.getNodeId(lat1, long1);
 			long target = graph.getNodeId(lat2, long2);
 			Path path = sp.shortestPath(source, target);
+			
+			ShortestPathResult spr = new ShortestPathResult();
+			spr.generateResult(graph, path);
+			
+			
+			return spr;
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@RequestMapping(value="{lat1}/{long1}/{lat2}/{long2}/{time}", method = RequestMethod.GET)
+	public @ResponseBody ShortestPathResult shortestPathLinearFunction(@PathVariable Double lat1, 
+			@PathVariable Double long1, @PathVariable Double lat2, @PathVariable Double long2, @PathVariable int time) throws ParseException {
+		log.debug("Atividade - GET (id)");
+		Graph graph;
+		try {
+			graph = LoadedGraph.getInstanceExample3().getGraph();
+
+			
+			AbstractShortestPathService sp = new DijkstraLinearFunction(graph);
+			new org.graphast.util.DateUtils();
+			Date d = DateUtils.parseDate(0, time, 0);
+			long source = graph.getNodeId(lat1, long1);
+			long target = graph.getNodeId(lat2, long2);
+			Path path = sp.shortestPath(source, target, d);
 			
 			ShortestPathResult spr = new ShortestPathResult();
 			spr.generateResult(graph, path);
@@ -105,7 +136,7 @@ public class ShortestPathController {
 		log.debug("Atividade - GET (id)");
 		Graph graph;
 		try {
-			graph = LoadedGraph.getInstance().getGraph();
+			graph = LoadedGraph.getInstanceMonaco().getGraph();
 
 			
 			AbstractShortestPathService sp = new AStarConstantWeight(graph);
