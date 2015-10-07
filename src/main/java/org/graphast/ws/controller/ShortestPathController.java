@@ -18,6 +18,7 @@ import org.graphast.util.DateUtils;
 import org.graphast.ws.enumeration.ResponseStatus;
 import org.graphast.ws.model.Atividade;
 import org.graphast.ws.model.LoadedGraph;
+import org.graphast.ws.model.LoadedGraphExample;
 import org.graphast.ws.model.ResponseStatusMessage;
 import org.graphast.ws.model.ShortestPathResult;
 import org.slf4j.Logger;
@@ -75,7 +76,7 @@ public class ShortestPathController {
 		log.debug("Atividade - GET (id)");
 		Graph graph;
 		try {
-			graph = LoadedGraph.getInstanceExample3().getGraph();
+			graph = LoadedGraphExample.getInstanceExample().getGraph();
 
 			
 			AbstractShortestPathService sp = new DijkstraLinearFunction(graph);
