@@ -1,14 +1,20 @@
 package org.graphast.ws.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Named;
 
+import org.graphast.model.Graph;
+import org.graphast.query.route.shortestpath.AbstractShortestPathService;
+import org.graphast.query.route.shortestpath.dijkstra.DijkstraConstantWeight;
+import org.graphast.query.route.shortestpath.model.Path;
 import org.graphast.ws.enumeration.ResponseStatus;
 import org.graphast.ws.model.Atividade;
+import org.graphast.ws.model.LoadedGraph;
 import org.graphast.ws.model.ResponseStatusMessage;
-import org.graphast.ws.service.AtividadeService;
+import org.graphast.ws.model.ShortestPathResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,14 +23,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Named
-@RequestMapping("/atividades")
-public class AtividadeController {
+@RequestMapping("/shortestpath")
+public class ShortestPathController {
 
 	private Logger log = LoggerFactory.getLogger(this.getClass());
-	
-	//@Inject
-	private AtividadeService atividadeService = null;
-	
+		
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody List<Atividade> findAll() {
 		log.debug("Atividade - GET (all)");
@@ -35,9 +38,29 @@ public class AtividadeController {
 		//return atividadeService.find(Atividade.class);
 	}
 	
-	@RequestMapping(value="{id}", method = RequestMethod.GET)
-	public @ResponseBody Atividade findById(@PathVariable Integer id) {
+	@RequestMapping(value="{lat1}/{long1}/{lat2}/{long2}", method = RequestMethod.GET)
+	public @ResponseBody ShortestPathResult shortestPath(@PathVariable Double lat1, 
+			@PathVariable Double long1, @PathVariable Double lat2, @PathVariable Double long2) {
 		log.debug("Atividade - GET (id)");
+		Graph graph;
+		try {
+			graph = LoadedGraph.getInstance().getGraph();
+
+			
+			AbstractShortestPathService sp = new DijkstraConstantWeight(graph);
+			long source = graph.getNodeId(lat1, long1);
+			long target = graph.getNodeId(lat2, long2);
+			Path path = sp.shortestPath(source, target);
+			
+			ShortestPathResult spr = new ShortestPathResult();
+			spr.generateResult(graph, path);
+			
+			
+			return spr;
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 	
@@ -63,8 +86,7 @@ public class AtividadeController {
 	@RequestMapping(value="{idAtividade}/participantes/{idParticipante}", method = RequestMethod.DELETE)
 	public @ResponseBody ResponseStatusMessage removeParticipanteDeAtividade(@PathVariable Integer idAtividade, @PathVariable Integer idParticipante) {
 		log.debug("Atividade - DELETE");
-		String msg = atividadeService.removeParticipanteDeAtividade(idParticipante, idAtividade);
-		return new ResponseStatusMessage(ResponseStatus.SUCCESS, msg);
+		return new ResponseStatusMessage(ResponseStatus.SUCCESS, "ok");
 	}
 
 	@RequestMapping(value="{id}", method = RequestMethod.PUT)
