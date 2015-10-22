@@ -45,7 +45,7 @@ public class ShortestPathController {
 	}
 	
 	@RequestMapping(value="{lat1}/{long1}/{lat2}/{long2}", method = RequestMethod.GET)
-	public @ResponseBody ShortestPathResult shortestPath(@PathVariable Double lat1, 
+	public @ResponseBody Path shortestPath(@PathVariable Double lat1, 
 			@PathVariable Double long1, @PathVariable Double lat2, @PathVariable Double long2) {
 		log.debug("Atividade - GET (id)");
 		Graph graph;
@@ -57,12 +57,11 @@ public class ShortestPathController {
 			long source = graph.getNodeId(lat1, long1);
 			long target = graph.getNodeId(lat2, long2);
 			Path path = sp.shortestPath(source, target);
+//			ShortestPathResult spr = new ShortestPathResult();
+//			spr.generateResult(graph, path);
 			
-			ShortestPathResult spr = new ShortestPathResult();
-			spr.generateResult(graph, path);
 			
-			
-			return spr;
+			return path;
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -71,7 +70,7 @@ public class ShortestPathController {
 	}
 	
 	@RequestMapping(value="{lat1}/{long1}/{lat2}/{long2}/{time}", method = RequestMethod.GET)
-	public @ResponseBody ShortestPathResult shortestPathLinearFunction(@PathVariable Double lat1, 
+	public @ResponseBody Path shortestPathLinearFunction(@PathVariable Double lat1, 
 			@PathVariable Double long1, @PathVariable Double lat2, @PathVariable Double long2, @PathVariable int time) throws ParseException {
 		log.debug("Atividade - GET (id)");
 		Graph graph;
@@ -86,11 +85,11 @@ public class ShortestPathController {
 			long target = graph.getNodeId(lat2, long2);
 			Path path = sp.shortestPath(source, target, d);
 			
-			ShortestPathResult spr = new ShortestPathResult();
-			spr.generateResult(graph, path);
+			//ShortestPathResult spr = new ShortestPathResult();
+			//spr.generateResult(graph, path);
 			
 			
-			return spr;
+			return path;
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -132,7 +131,7 @@ public class ShortestPathController {
 	}
 	
 	@RequestMapping(value="a*/{lat1}/{long1}/{lat2}/{long2}", method = RequestMethod.GET)
-	public @ResponseBody ShortestPathResult shortestPathAStar(@PathVariable Double lat1, 
+	public @ResponseBody Path shortestPathAStar(@PathVariable Double lat1, 
 			@PathVariable Double long1, @PathVariable Double lat2, @PathVariable Double long2) {
 		log.debug("Atividade - GET (id)");
 		Graph graph;
@@ -145,11 +144,11 @@ public class ShortestPathController {
 			long target = graph.getNodeId(lat2, long2);
 			Path path = sp.shortestPath(source, target);
 			
-			ShortestPathResult spr = new ShortestPathResult();
-			spr.generateResult(graph, path);
+			//ShortestPathResult spr = new ShortestPathResult();
+			//spr.generateResult(graph, path);
 			
 			
-			return spr;
+			return path;
 
 		} catch (IOException e) {
 			e.printStackTrace();
