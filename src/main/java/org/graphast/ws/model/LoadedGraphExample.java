@@ -6,20 +6,18 @@ import org.graphast.config.Configuration;
 import org.graphast.model.Graph;
 import org.graphast.model.GraphImpl;
 
-public class LoadedGraph {
-
-	private static LoadedGraph loadedGraph;
-	
+public class LoadedGraphExample {
+	private static LoadedGraphExample loadedGraph;
 	private Graph graph;
 
-	private LoadedGraph() {	
+	private LoadedGraphExample() {	
 		super();
 	} 
-
-	public static LoadedGraph getInstanceMonaco() throws IOException {
+	
+	public static LoadedGraphExample getInstanceExample() throws IOException {
 		if (loadedGraph == null) {
-			loadedGraph = new LoadedGraph();
-			loadedGraph.graph = new GraphImpl(Configuration.USER_HOME + "/graphast/monaco");
+			loadedGraph = new LoadedGraphExample();
+			loadedGraph.graph = new GraphImpl(Configuration.USER_HOME + "/graphast/example");
 			loadedGraph.graph.load();
 		}
 		return loadedGraph;
@@ -32,5 +30,4 @@ public class LoadedGraph {
 	public void setGraph(Graph graph) {
 		this.graph = graph;
 	}
-	
 }

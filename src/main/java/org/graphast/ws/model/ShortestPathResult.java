@@ -69,7 +69,7 @@ public class ShortestPathResult {
 				}
 			}	
 		}
-		
+		 
 		
 		// instructions
 		int geometryIndex = -1;
