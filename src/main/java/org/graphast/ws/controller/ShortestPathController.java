@@ -17,10 +17,8 @@ import org.graphast.query.route.shortestpath.model.Path;
 import org.graphast.util.DateUtils;
 import org.graphast.ws.enumeration.ResponseStatus;
 import org.graphast.ws.model.Atividade;
-import org.graphast.ws.model.LoadedGraph;
-import org.graphast.ws.model.LoadedGraphExample;
 import org.graphast.ws.model.ResponseStatusMessage;
-import org.graphast.ws.model.ShortestPathResult;
+import org.graphast.ws.model.WebAppGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,17 +48,12 @@ public class ShortestPathController {
 		log.debug("Atividade - GET (id)");
 		Graph graph;
 		try {
-			graph = LoadedGraph.getInstanceMonaco().getGraph();
-
+			graph = WebAppGraph.getGraph();
 			
 			AbstractShortestPathService sp = new DijkstraConstantWeight(graph);
 			long source = graph.getNodeId(lat1, long1);
 			long target = graph.getNodeId(lat2, long2);
 			Path path = sp.shortestPath(source, target);
-//			ShortestPathResult spr = new ShortestPathResult();
-//			spr.generateResult(graph, path);
-			
-			
 			return path;
 
 		} catch (IOException e) {
@@ -75,8 +68,7 @@ public class ShortestPathController {
 		log.debug("Atividade - GET (id)");
 		Graph graph;
 		try {
-			graph = LoadedGraphExample.getInstanceExample().getGraph();
-
+			graph = WebAppGraph.getGraph();
 			
 			AbstractShortestPathService sp = new DijkstraLinearFunction(graph);
 			new org.graphast.util.DateUtils();
@@ -84,13 +76,7 @@ public class ShortestPathController {
 			long source = graph.getNodeId(lat1, long1);
 			long target = graph.getNodeId(lat2, long2);
 			Path path = sp.shortestPath(source, target, d);
-			
-			//ShortestPathResult spr = new ShortestPathResult();
-			//spr.generateResult(graph, path);
-			
-			
 			return path;
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -136,8 +122,7 @@ public class ShortestPathController {
 		log.debug("Atividade - GET (id)");
 		Graph graph;
 		try {
-			graph = LoadedGraph.getInstanceMonaco().getGraph();
-
+			graph = WebAppGraph.getGraph();
 			
 			AbstractShortestPathService sp = new AStarConstantWeight(graph);
 			long source = graph.getNodeId(lat1, long1);

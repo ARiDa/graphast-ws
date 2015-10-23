@@ -14,8 +14,7 @@ import org.graphast.query.knn.KNNTCSearch;
 import org.graphast.query.knn.NearestNeighbor;
 import org.graphast.util.DateUtils;
 import org.graphast.ws.model.KNNResult;
-import org.graphast.ws.model.LoadedGraph;
-import org.graphast.ws.model.ShortestPathResult;
+import org.graphast.ws.model.WebAppGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,7 +34,7 @@ public class KNNController {
 		log.debug("Atividade - GET (id)");
 		GraphBounds graph;
 		try {
-			graph = (GraphBounds)LoadedGraph.getInstanceMonaco().getGraph();
+			graph = (GraphBounds)WebAppGraph.getGraph();
 			graph.createBounds();
 			
 			//calculate or load bounds
