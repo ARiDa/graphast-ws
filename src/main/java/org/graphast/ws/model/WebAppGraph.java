@@ -3,7 +3,7 @@ package org.graphast.ws.model;
 import java.io.IOException;
 
 import org.graphast.model.Graph;
-import org.graphast.model.GraphImpl;
+import org.graphast.model.GraphBoundsImpl;
 import org.graphast.ws.config.Config;
 
 public class WebAppGraph {
@@ -18,7 +18,7 @@ public class WebAppGraph {
 	public static Graph reload() throws IOException {
 		Config.reload();
 		graphDir = Config.getProperty("graph.dir");
-		graph = new GraphImpl(graphDir);
+		graph = new GraphBoundsImpl(graphDir);
 		graph.load();
 		return graph;
 	}
