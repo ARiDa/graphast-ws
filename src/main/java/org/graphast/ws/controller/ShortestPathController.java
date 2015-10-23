@@ -33,13 +33,8 @@ public class ShortestPathController {
 	private Logger log = LoggerFactory.getLogger(this.getClass());
 		
 	@RequestMapping(method = RequestMethod.GET)
-	public @ResponseBody List<Atividade> findAll() {
-		log.debug("Atividade - GET (all)");
-		Atividade atividade = new Atividade(1, "Curso SQL", 20);
-		List<Atividade> atividades = new ArrayList<Atividade>();
-		atividades.add(atividade);
-		return atividades; 
-		//return atividadeService.find(Atividade.class);
+	public @ResponseBody String shortestPath() {
+		return "Shortest Path Services"; 
 	}
 	
 	@RequestMapping(value="{lat1}/{long1}/{lat2}/{long2}", method = RequestMethod.GET)
