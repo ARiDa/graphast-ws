@@ -92,8 +92,8 @@ public class KNNResult {
 			ArrayList<Instruction> localPath = new ArrayList<Instruction>();
 			int geometryIndex = -1;
 			int jAtual = -1;
-			for(int o = 0; o < path.getPath().size(); o++) {
-				String labelName = path.getPath().get(o).getLabel();
+			for(int o = 0; o < path.getInstructions().size(); o++) {
+				String labelName = path.getInstructions().get(o).getLabel();
 				Instruction inst = new Instruction();
 				inst.setBeginInterval(geometryIndex+1);
 				int j = jAtual+1;
@@ -118,7 +118,7 @@ public class KNNResult {
 					}
 					j++;
 				}
-				inst.setDirection(path.getPath().get(o).getDirection());
+				inst.setDirection(path.getInstructions().get(o).getDirection());
 				inst.setLabel(labelName);
 				localPath.add(inst);
 			}
