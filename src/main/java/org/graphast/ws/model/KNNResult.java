@@ -97,7 +97,6 @@ public class KNNResult {
 				Instruction inst = new Instruction();
 				inst.setBeginInterval(geometryIndex+1);
 				int j = jAtual+1;
-				boolean sair = false;
 				while(j < path.getEdges().size()) {
 					Edge e = graph.getEdge(path.getEdges().get(j));
 					if(e.getLabel().equals(labelName)) {
@@ -110,11 +109,8 @@ public class KNNResult {
 						}	
 						inst.setEndInterval(geometryIndex);
 						jAtual++;
-						sair = true;
 					}else {
-						if(sair = true) {
-							break;
-						}
+						break;
 					}
 					j++;
 				}

@@ -2,9 +2,7 @@ package org.graphast.ws.controller;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.inject.Named;
 
