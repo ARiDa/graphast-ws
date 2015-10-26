@@ -30,6 +30,7 @@ public class OSRController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody String osr() {
+		log.debug("OSR service");
 		return "OSR"; 
 	}
 	
@@ -60,7 +61,7 @@ public class OSRController {
 			Graph resultGraph = osr.getGraphAdapter();
 			Sequence seq = osr.search(graph.getNode(1), graph.getNode(7), date, categories);
 			Path path = new Path();
-			path = path.generatePath(lat1, long1, lat2, long2, seq, resultGraph);
+			//path = path.generatePath(lat1, long1, lat2, long2, seq, resultGraph);
 			
 			
 			

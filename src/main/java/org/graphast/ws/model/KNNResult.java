@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.graphast.geometry.Point;
 import org.graphast.model.Edge;
 import org.graphast.model.Graph;
 import org.graphast.model.Node;
 import org.graphast.query.knn.NearestNeighbor;
 import org.graphast.query.route.shortestpath.AbstractShortestPathService;
 import org.graphast.query.route.shortestpath.dijkstra.DijkstraLinearFunction;
+import org.graphast.query.route.shortestpath.model.Instruction;
 import org.graphast.query.route.shortestpath.model.Path;
 
 public class KNNResult {
@@ -92,10 +94,10 @@ public class KNNResult {
 			ArrayList<Instruction> localPath = new ArrayList<Instruction>();
 			int geometryIndex = -1;
 			int jAtual = -1;
-			for(int o = 0; o < path.getInstructions().size(); o++) {
-				String labelName = path.getInstructions().get(o).getLabel();
+			for(int o = 0; o < path.getPath().size(); o++) {
+				String labelName = path.getPath().get(o).getLabel();
 				Instruction inst = new Instruction();
-				inst.setBeginInterval(geometryIndex+1);
+				inst.setStartGeometry(geometryIndex+1);
 				int j = jAtual+1;
 				while(j < path.getEdges().size()) {
 					Edge e = graph.getEdge(path.getEdges().get(j));
@@ -107,14 +109,14 @@ public class KNNResult {
 						if(e.getGeometry() != null) { 
 							geometryIndex += e.getGeometry().size();
 						}	
-						inst.setEndInterval(geometryIndex);
+						inst.setEndGeometry(geometryIndex);
 						jAtual++;
 					}else {
 						break;
 					}
 					j++;
 				}
-				inst.setDirection(path.getInstructions().get(o).getDirection());
+				inst.setDirection(path.getPath().get(o).getDirection());
 				inst.setLabel(labelName);
 				localPath.add(inst);
 			}

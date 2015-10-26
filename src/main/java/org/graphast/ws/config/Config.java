@@ -1,8 +1,12 @@
 package org.graphast.ws.config;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -14,9 +18,13 @@ public class Config {
 
 	public static final String USER_HOME = System.getProperty("user.home");
 
-	public static final String CONFIG_FILE = "config.properties";
+	public static final String CONFIG_FILE_BASE_NAME = "config.properties";
+
+	public static final String CONFIG_FILE = USER_HOME + "/graphast/" + CONFIG_FILE_BASE_NAME;
 	
 	private static Logger log = LoggerFactory.getLogger(Config.class);
+	
+	private static List<String> apps;
 	
 	static {
 		reload();
@@ -46,16 +54,28 @@ public class Config {
 		try {
 			log.info("user.dir: {}", System.getProperty("user.dir"));
 			log.info("user.home: {}", USER_HOME);
+
 			config = new Properties();
-			config.load(Config.class.getResourceAsStream("/" + CONFIG_FILE));
+
+			File userConfigFile = new File(CONFIG_FILE);
+			if (! userConfigFile.exists()) {
+				InputStream is = Config.class.getResourceAsStream("/" + CONFIG_FILE_BASE_NAME);
+				Files.copy(is, userConfigFile.toPath());
+			}
+
+			log.info("config file: {}", CONFIG_FILE);
+			config.load(new FileInputStream(CONFIG_FILE));
+
+			apps = Arrays.asList(config.getProperty("graphast.apps").split(","));
+			log.info("graphast.apps: {}", apps);
+			log.info("graphast.selected.app: {}", getSelectedApp());
+
 			Enumeration<String> props = (Enumeration<String>) config.propertyNames();
             while(props.hasMoreElements()){
                     String s = props.nextElement();
                     config.setProperty(s, config.getProperty(s).replace("${user.home}", USER_HOME));
             }
-		} catch (FileNotFoundException e) {
-			log.error(e.getMessage(), e);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
 	}
@@ -63,4 +83,13 @@ public class Config {
 	public static Properties getConfig() {
 		return config;
 	}
+	
+	public static List<String> getApps() {
+		return apps;
+	}
+	
+	public static String getSelectedApp() {
+		return config.getProperty("graphast.selected.app");
+	}
+	
 }

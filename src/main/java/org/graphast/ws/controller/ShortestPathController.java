@@ -13,9 +13,6 @@ import org.graphast.query.route.shortestpath.dijkstra.DijkstraConstantWeight;
 import org.graphast.query.route.shortestpath.dijkstra.DijkstraLinearFunction;
 import org.graphast.query.route.shortestpath.model.Path;
 import org.graphast.util.DateUtils;
-import org.graphast.ws.enumeration.ResponseStatus;
-import org.graphast.ws.model.Atividade;
-import org.graphast.ws.model.ResponseStatusMessage;
 import org.graphast.ws.model.WebAppGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,39 +71,6 @@ public class ShortestPathController {
 			e.printStackTrace();
 		}
 		return null;
-	}
-	
-	@RequestMapping(method = RequestMethod.POST)
-	public @ResponseBody ResponseStatusMessage insert(Atividade atividade) {
-		log.debug("Atividade - POST");
-		return new ResponseStatusMessage(ResponseStatus.SUCCESS, "Atividade inserida com sucesso");
-	}
-
-	@RequestMapping(value="{idAtividade}/participantes/{idParticipante}", method = RequestMethod.POST)
-	public @ResponseBody ResponseStatusMessage insereParticipanteEmAtividade(@PathVariable Integer idAtividade, @PathVariable Integer idParticipante) {
-		log.debug("Atividade - POST - insere participante em atividade");
-		String msg = null;
-		return new ResponseStatusMessage(ResponseStatus.SUCCESS, msg);
-	}
-	
-	@RequestMapping(value="{id}", method = RequestMethod.DELETE)
-	public @ResponseBody ResponseStatusMessage delete(@PathVariable Integer id) {
-		log.debug("Atividade - DELETE");
-		return new ResponseStatusMessage(ResponseStatus.SUCCESS, "Atividade removida com sucesso");
-	}
-	
-	@RequestMapping(value="{idAtividade}/participantes/{idParticipante}", method = RequestMethod.DELETE)
-	public @ResponseBody ResponseStatusMessage removeParticipanteDeAtividade(@PathVariable Integer idAtividade, @PathVariable Integer idParticipante) {
-		log.debug("Atividade - DELETE");
-		return new ResponseStatusMessage(ResponseStatus.SUCCESS, "ok");
-	}
-
-	@RequestMapping(value="{id}", method = RequestMethod.PUT)
-	public @ResponseBody ResponseStatusMessage update(Atividade atividade, @PathVariable Integer id) {
-		log.debug("Atividade - PUT");
-		atividade.setId(id);
-		log.debug("Updating Atividade: {}", atividade);
-		return new ResponseStatusMessage(ResponseStatus.SUCCESS, "Atividade atualizada com sucesso");
 	}
 	
 	@RequestMapping(value="a*/{lat1}/{long1}/{lat2}/{long2}", method = RequestMethod.GET)
