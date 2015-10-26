@@ -1,12 +1,12 @@
 package org.graphast.ws.controller;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
 import javax.inject.Named;
 
+import org.graphast.exception.GraphastException;
 import org.graphast.model.Graph;
 import org.graphast.model.GraphBounds;
 import org.graphast.query.route.osr.BoundsRoute;
@@ -34,11 +34,11 @@ public class OSRController {
 		return "OSR"; 
 	}
 	
-	
 	@RequestMapping(value="{lat1}/{long1}/{lat2}/{long2}/{time}/{categoriesString}" ,method = RequestMethod.GET)
 	public @ResponseBody Path osr(@PathVariable Double lat1, 
 			@PathVariable Double long1, @PathVariable Double lat2, @PathVariable Double long2, 
 			@PathVariable int time, @PathVariable String categoriesString) {
+		
 		// tratar categorias
 		String[] cat = categoriesString.split(",");
 		ArrayList<Integer> categories = new ArrayList<Integer>();
@@ -47,32 +47,26 @@ public class OSRController {
 		}
 		GraphBounds graph;
 		GraphBounds reverseGraph;
+		graph = (GraphBounds)WebAppGraph.getGraph();
+		graph.createBounds();
+		reverseGraph = (GraphBounds)WebAppGraph.getGraph();
+		reverseGraph.reverseGraph();
+		short graphType = 1;
+		BoundsRoute bounds = new BoundsRoute(graph, graphType);
+		OSRSearch osr = new OSRSearch(graph, bounds, reverseGraph);
+		//long source = graph.getNodeId(lat1, long1);
+		//long target = graph.getNodeId(lat2, long2);
+		Date date;
 		try {
-			graph = (GraphBounds)WebAppGraph.getGraph();
-			graph.createBounds();
-			reverseGraph = (GraphBounds)WebAppGraph.getGraph();
-			reverseGraph.reverseGraph();
-			short graphType = 1;
-			BoundsRoute bounds = new BoundsRoute(graph, graphType);
-			OSRSearch osr = new OSRSearch(graph, bounds, reverseGraph);
-			long source = graph.getNodeId(lat1, long1);
-			long target = graph.getNodeId(lat2, long2);
-			Date date = DateUtils.parseDate(0, time, 0);
-			Graph resultGraph = osr.getGraphAdapter();
-			Sequence seq = osr.search(graph.getNode(1), graph.getNode(7), date, categories);
-			Path path = new Path();
-			//path = path.generatePath(lat1, long1, lat2, long2, seq, resultGraph);
-			
-			
-			
-			return path;
-
-		} catch (IOException e) {
-			e.printStackTrace();
+			date = DateUtils.parseDate(0, time, 0);
 		} catch (ParseException e) {
-			e.printStackTrace();
+			throw new GraphastException(e.getMessage(), e);
 		}
-		return null;
+		Graph resultGraph = osr.getGraphAdapter();
+		Sequence seq = osr.search(graph.getNode(1), graph.getNode(7), date, categories);
+		Path path = new Path();
+		path = path.generatePath(lat1, long1, lat2, long2, seq, resultGraph);
+		return path;
 	}
 	
 }

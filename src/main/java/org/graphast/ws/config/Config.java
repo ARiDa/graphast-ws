@@ -2,6 +2,8 @@ package org.graphast.ws.config;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.Arrays;
@@ -80,6 +82,14 @@ public class Config {
 		}
 	}
 
+	public static void save() {
+		try {
+			config.store(new FileOutputStream(CONFIG_FILE), null);
+		} catch (IOException e) {
+			log.error(e.getMessage(), e);
+		}
+	}
+	
 	public static Properties getConfig() {
 		return config;
 	}
@@ -90,6 +100,10 @@ public class Config {
 	
 	public static String getSelectedApp() {
 		return config.getProperty("graphast.selected.app");
+	}
+	
+	public static void setSelectedApp(String app) {
+		config.setProperty("graphast.selected.app", app);
 	}
 	
 }

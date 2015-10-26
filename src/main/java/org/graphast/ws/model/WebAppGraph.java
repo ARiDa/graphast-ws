@@ -1,7 +1,5 @@
 package org.graphast.ws.model;
 
-import java.io.IOException;
-
 import org.graphast.model.Graph;
 import org.graphast.model.GraphBoundsImpl;
 import org.graphast.ws.config.Config;
@@ -19,8 +17,12 @@ public class WebAppGraph {
 		super();
 	} 
 
-	public static Graph reload() throws IOException {
+	public static Graph load(String app) {
 		Config.reload();
+		if (app != null) {
+			Config.setSelectedApp(app);
+			Config.save();
+		}
 		graphDir = Config.getProperty("graphast." + Config.getSelectedApp() + ".dir");
 		log.debug("graphDir: {}", graphDir);
 		graph = new GraphBoundsImpl(graphDir);
@@ -28,19 +30,18 @@ public class WebAppGraph {
 		return graph;
 	}
 	
-	public static Graph getGraph() throws IOException {
+	public static Graph getGraph() {
 		if (graph == null) {
-			reload();
+			load(null);
 		}
 		return graph;
 	}
 
-	public static String getGraphDir() throws IOException {
+	public static String getGraphDir() {
 		if (graphDir == null) {
-			reload();
+			load(null);
 		}
 		return graphDir;
 	}
-
 	
 }

@@ -1,6 +1,5 @@
 package org.graphast.ws.controller;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
@@ -31,34 +30,28 @@ public class KNNController {
 	@RequestMapping(value="/{sourceLat}/{sourceLong}/{time}/{boundType}", method = RequestMethod.GET)
 	public @ResponseBody KNNResult knn(@PathVariable Double sourceLat, 
 			@PathVariable Double sourceLong, @PathVariable int time, @PathVariable int boundType) throws ParseException {
+		
 		log.debug("Atividade - GET (id)");
 		GraphBounds graph;
-		try {
-			graph = (GraphBounds)WebAppGraph.getGraph();
-			graph.createBounds();
-			
-			//calculate or load bounds
-			BoundsKNNTC minBounds = new BoundsKNNTC(graph, GraphBoundsType.LOWER);
-			BoundsKNNTC maxBounds = new BoundsKNNTC(graph, GraphBoundsType.UPPER);
-			
-			KNNTCSearch knn = new KNNTCSearch(graph, minBounds, maxBounds);
-			long source = graph.getNodeId(sourceLat, sourceLong);
-			
-			new DateUtils();
-			//TODO mudar para entrar uma data
-			Date d = DateUtils.parseDate(0, time, 0);
-			List<NearestNeighbor> nn = knn.search(graph.getNode(source), d, boundType);
-			
-			KNNResult knnResult = new KNNResult(graph.getNode(source));
-			knnResult.generateResult(graph, nn, time);
-			
-			
-			return knnResult;
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
+		graph = (GraphBounds)WebAppGraph.getGraph();
+		graph.createBounds();
+		
+		//calculate or load bounds
+		BoundsKNNTC minBounds = new BoundsKNNTC(graph, GraphBoundsType.LOWER);
+		BoundsKNNTC maxBounds = new BoundsKNNTC(graph, GraphBoundsType.UPPER);
+		
+		KNNTCSearch knn = new KNNTCSearch(graph, minBounds, maxBounds);
+		long source = graph.getNodeId(sourceLat, sourceLong);
+		
+		new DateUtils();
+		//TODO mudar para entrar uma data
+		Date d = DateUtils.parseDate(0, time, 0);
+		List<NearestNeighbor> nn = knn.search(graph.getNode(source), d, boundType);
+		
+		KNNResult knnResult = new KNNResult(graph.getNode(source));
+		knnResult.generateResult(graph, nn, time);
+		
+		return knnResult;
 	}
 	
 	

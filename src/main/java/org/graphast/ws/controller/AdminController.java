@@ -1,8 +1,6 @@
 package org.graphast.ws.controller;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import javax.inject.Named;
 
@@ -21,25 +19,35 @@ public class AdminController {
 	private Logger log = LoggerFactory.getLogger(this.getClass());
 		
 	@RequestMapping(method = RequestMethod.GET)
-	public @ResponseBody Map<String, Object> apps() {
+	public @ResponseBody String admin() {
 		log.debug("apps service");
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("apps", Config.getApps());
-		result.put("selectedApp", Config.getSelectedApp());
-		return result;
+		return "Admin service";
 	}
 
-	@RequestMapping(value="/reload", method = RequestMethod.GET)
-	public @ResponseBody String reload() {
-		try {
-			log.debug("RELOAD");
-			WebAppGraph.reload();
-			return "Graph Dir: " + WebAppGraph.getGraphDir();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null; 
+	@RequestMapping(value="/apps", method = RequestMethod.GET)
+	public @ResponseBody List<String> apps() {
+		log.debug("apps service");
+		return Config.getApps();
 	}
 	
+	@RequestMapping(value="/selected-app", method = RequestMethod.GET)
+	public @ResponseBody String selectedApp() {
+		log.debug("selected apps service");
+		return Config.getSelectedApp();
+	}
+	
+	@RequestMapping(value="/reload", method = RequestMethod.GET)
+	public @ResponseBody String reload() {
+		log.debug("RELOAD");
+		WebAppGraph.load(null);
+		return "Graph Dir: " + WebAppGraph.getGraphDir();
+	}
+
+	@RequestMapping(value="/load/{app}", method = RequestMethod.GET)
+	public @ResponseBody String load(String app) {
+		log.debug("LOAD: {}", app);
+		WebAppGraph.load(app);
+		return "Graph Dir: " + WebAppGraph.getGraphDir();
+	}
 	
 }

@@ -1,6 +1,5 @@
 package org.graphast.ws.controller;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
 
@@ -35,67 +34,48 @@ public class ShortestPathController {
 	@RequestMapping(value="{lat1}/{long1}/{lat2}/{long2}", method = RequestMethod.GET)
 	public @ResponseBody Path shortestPath(@PathVariable Double lat1, 
 			@PathVariable Double long1, @PathVariable Double lat2, @PathVariable Double long2) {
+		
 		log.debug("Atividade - GET (id)");
 		Graph graph;
-		try {
-			graph = WebAppGraph.getGraph();
-			
-			AbstractShortestPathService sp = new DijkstraConstantWeight(graph);
-			long source = graph.getNodeId(lat1, long1);
-			long target = graph.getNodeId(lat2, long2);
-			Path path = sp.shortestPath(source, target);
-			return path;
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
+		graph = WebAppGraph.getGraph();
+		
+		AbstractShortestPathService sp = new DijkstraConstantWeight(graph);
+		long source = graph.getNodeId(lat1, long1);
+		long target = graph.getNodeId(lat2, long2);
+		Path path = sp.shortestPath(source, target);
+		return path;
 	}
 	
 	@RequestMapping(value="{lat1}/{long1}/{lat2}/{long2}/{time}", method = RequestMethod.GET)
 	public @ResponseBody Path shortestPathLinearFunction(@PathVariable Double lat1, 
 			@PathVariable Double long1, @PathVariable Double lat2, @PathVariable Double long2, @PathVariable int time) throws ParseException {
+
 		log.debug("Atividade - GET (id)");
 		Graph graph;
-		try {
-			graph = WebAppGraph.getGraph();
-			
-			AbstractShortestPathService sp = new DijkstraLinearFunction(graph);
-			new org.graphast.util.DateUtils();
-			Date d = DateUtils.parseDate(0, time, 0);
-			long source = graph.getNodeId(lat1, long1);
-			long target = graph.getNodeId(lat2, long2);
-			Path path = sp.shortestPath(source, target, d);
-			return path;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
+		graph = WebAppGraph.getGraph();
+		
+		AbstractShortestPathService sp = new DijkstraLinearFunction(graph);
+		new org.graphast.util.DateUtils();
+		Date d = DateUtils.parseDate(0, time, 0);
+		long source = graph.getNodeId(lat1, long1);
+		long target = graph.getNodeId(lat2, long2);
+		Path path = sp.shortestPath(source, target, d);
+		return path;
 	}
 	
 	@RequestMapping(value="a*/{lat1}/{long1}/{lat2}/{long2}", method = RequestMethod.GET)
 	public @ResponseBody Path shortestPathAStar(@PathVariable Double lat1, 
 			@PathVariable Double long1, @PathVariable Double lat2, @PathVariable Double long2) {
+		
 		log.debug("Atividade - GET (id)");
 		Graph graph;
-		try {
-			graph = WebAppGraph.getGraph();
-			
-			AbstractShortestPathService sp = new AStarConstantWeight(graph);
-			long source = graph.getNodeId(lat1, long1);
-			long target = graph.getNodeId(lat2, long2);
-			Path path = sp.shortestPath(source, target);
-			
-			//ShortestPathResult spr = new ShortestPathResult();
-			//spr.generateResult(graph, path);
-			
-			
-			return path;
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
+		graph = WebAppGraph.getGraph();
+		
+		AbstractShortestPathService sp = new AStarConstantWeight(graph);
+		long source = graph.getNodeId(lat1, long1);
+		long target = graph.getNodeId(lat2, long2);
+		Path path = sp.shortestPath(source, target);
+		return path;
 	}
 	
 	
