@@ -47,7 +47,7 @@ public class ShortestPathController {
 	@RequestMapping(value="{lat1}/{long1}/{lat2}/{long2}/{hour}/{minute}", method = RequestMethod.GET)
 	public @ResponseBody Path shortestPathLinearFunction(@PathVariable Double lat1, 
 			@PathVariable Double long1, @PathVariable Double lat2, @PathVariable Double long2, 
-			@PathVariable int dayOfWeek, @PathVariable int hour, @PathVariable int minute) {
+			@PathVariable int hour, @PathVariable int minute) {
 		
 		return shortestPathLinearFunction2(lat1, long1, lat2, long2, 0, hour, minute);
 	}
