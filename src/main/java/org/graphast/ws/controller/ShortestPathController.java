@@ -36,8 +36,7 @@ public class ShortestPathController {
 			@PathVariable Double long1, @PathVariable Double lat2, @PathVariable Double long2) {
 		
 		log.debug("Atividade - GET (id)");
-		Graph graph;
-		graph = WebAppGraph.getGraph();
+		Graph graph = WebAppGraph.getGraph();
 		
 		AbstractShortestPathService sp = new DijkstraConstantWeight(graph);
 		long source = graph.getNodeId(lat1, long1);
