@@ -1,13 +1,11 @@
 package org.graphast.ws.controller;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
 import javax.inject.Named;
 
 import org.graphast.app.AppGraph;
-import org.graphast.exception.GraphastException;
 import org.graphast.model.Graph;
 import org.graphast.model.GraphBounds;
 import org.graphast.query.route.osr.BoundsRoute;
@@ -34,10 +32,10 @@ public class OSRController {
 		return "OSR"; 
 	}
 	
-	@RequestMapping(value="{lat1}/{long1}/{lat2}/{long2}/{time}/{categoriesString}" ,method = RequestMethod.GET)
+	@RequestMapping(value="{lat1}/{long1}/{lat2}/{long2}/{hour}/{minute},{categoriesString}" ,method = RequestMethod.GET)
 	public @ResponseBody Path osr(@PathVariable Double lat1, 
 			@PathVariable Double long1, @PathVariable Double lat2, @PathVariable Double long2, 
-			@PathVariable int time, @PathVariable String categoriesString) {
+			@PathVariable int hour, @PathVariable int minute, @PathVariable String categoriesString) {
 		
 		// tratar categorias
 		String[] cat = categoriesString.split(",");
@@ -57,11 +55,7 @@ public class OSRController {
 		//long source = graph.getNodeId(lat1, long1);
 		//long target = graph.getNodeId(lat2, long2);
 		Date date;
-		try {
-			date = DateUtils.parseDate(0, time, 0);
-		} catch (ParseException e) {
-			throw new GraphastException(e.getMessage(), e);
-		}
+		date = DateUtils.parseDate(hour, minute, 0);
 		Graph resultGraph = osr.getGraphAdapter();
 		Sequence seq = osr.search(graph.getNode(1), graph.getNode(7), date, categories);
 		Path path = new Path();
