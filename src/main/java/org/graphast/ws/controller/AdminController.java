@@ -8,6 +8,7 @@ import org.graphast.ws.config.Config;
 import org.graphast.ws.model.WebAppGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -44,7 +45,7 @@ public class AdminController {
 	}
 
 	@RequestMapping(value="/load/{app}", method = RequestMethod.GET)
-	public @ResponseBody String load(String app) {
+	public @ResponseBody String load(@PathVariable String app) {
 		log.debug("LOAD: {}", app);
 		WebAppGraph.load(app);
 		return "Graph Dir: " + WebAppGraph.getGraphDir();

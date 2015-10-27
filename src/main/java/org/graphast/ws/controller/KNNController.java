@@ -26,6 +26,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class KNNController {
 	
 	private Logger log = LoggerFactory.getLogger(this.getClass());
+
+	@RequestMapping(method = RequestMethod.GET)
+	public @ResponseBody String shortestPath() {
+		return "kNN Service"; 
+	}
 	
 	@RequestMapping(value="/{sourceLat}/{sourceLong}/{time}/{boundType}", method = RequestMethod.GET)
 	public @ResponseBody KNNResult knn(@PathVariable Double sourceLat, 
@@ -53,6 +58,5 @@ public class KNNController {
 		
 		return knnResult;
 	}
-	
 	
 }
