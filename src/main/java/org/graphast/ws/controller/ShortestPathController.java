@@ -45,9 +45,10 @@ public class ShortestPathController {
 		return path;
 	}
 	
-	@RequestMapping(value="{lat1}/{long1}/{lat2}/{long2}/{time}", method = RequestMethod.GET)
+	@RequestMapping(value="{lat1}/{long1}/{lat2}/{long2}/{dayOfWeek}/{hour}/{minute}", method = RequestMethod.GET)
 	public @ResponseBody Path shortestPathLinearFunction(@PathVariable Double lat1, 
-			@PathVariable Double long1, @PathVariable Double lat2, @PathVariable Double long2, @PathVariable int time) throws ParseException {
+			@PathVariable Double long1, @PathVariable Double lat2, @PathVariable Double long2, 
+			@PathVariable int dayOfWeek, @PathVariable int hour, @PathVariable int minute) throws ParseException {
 
 		log.debug("Atividade - GET (id)");
 		Graph graph;
@@ -55,7 +56,7 @@ public class ShortestPathController {
 		
 		AbstractShortestPathService sp = new DijkstraLinearFunction(graph);
 		new org.graphast.util.DateUtils();
-		Date d = DateUtils.parseDate(0, time, 0);
+		Date d = DateUtils.parseDate(hour, minute, 0);
 		long source = graph.getNodeId(lat1, long1);
 		long target = graph.getNodeId(lat2, long2);
 		Path path = sp.shortestPath(source, target, d);
