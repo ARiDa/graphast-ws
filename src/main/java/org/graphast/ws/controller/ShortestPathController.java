@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.inject.Named;
 
+import org.graphast.app.AppGraph;
 import org.graphast.model.Graph;
 import org.graphast.query.route.shortestpath.AbstractShortestPathService;
 import org.graphast.query.route.shortestpath.astar.AStarConstantWeight;
@@ -12,7 +13,6 @@ import org.graphast.query.route.shortestpath.dijkstra.DijkstraConstantWeight;
 import org.graphast.query.route.shortestpath.dijkstra.DijkstraLinearFunction;
 import org.graphast.query.route.shortestpath.model.Path;
 import org.graphast.util.DateUtils;
-import org.graphast.ws.model.WebAppGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,7 +36,7 @@ public class ShortestPathController {
 			@PathVariable Double long1, @PathVariable Double lat2, @PathVariable Double long2) {
 		
 		log.debug("Atividade - GET (id)");
-		Graph graph = WebAppGraph.getGraph();
+		Graph graph = AppGraph.getGraph();
 		
 		AbstractShortestPathService sp = new DijkstraConstantWeight(graph);
 		long source = graph.getNodeId(lat1, long1);
@@ -51,7 +51,7 @@ public class ShortestPathController {
 
 		log.debug("Atividade - GET (id)");
 		Graph graph;
-		graph = WebAppGraph.getGraph();
+		graph = AppGraph.getGraph();
 		
 		AbstractShortestPathService sp = new DijkstraLinearFunction(graph);
 		new org.graphast.util.DateUtils();
@@ -68,7 +68,7 @@ public class ShortestPathController {
 		
 		log.debug("Atividade - GET (id)");
 		Graph graph;
-		graph = WebAppGraph.getGraph();
+		graph = AppGraph.getGraph();
 		
 		AbstractShortestPathService sp = new AStarConstantWeight(graph);
 		long source = graph.getNodeId(lat1, long1);

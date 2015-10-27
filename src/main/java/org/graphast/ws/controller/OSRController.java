@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.inject.Named;
 
+import org.graphast.app.AppGraph;
 import org.graphast.exception.GraphastException;
 import org.graphast.model.Graph;
 import org.graphast.model.GraphBounds;
@@ -14,7 +15,6 @@ import org.graphast.query.route.osr.OSRSearch;
 import org.graphast.query.route.osr.Sequence;
 import org.graphast.query.route.shortestpath.model.Path;
 import org.graphast.util.DateUtils;
-import org.graphast.ws.model.WebAppGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,9 +47,9 @@ public class OSRController {
 		}
 		GraphBounds graph;
 		GraphBounds reverseGraph;
-		graph = (GraphBounds)WebAppGraph.getGraph();
+		graph = (GraphBounds)AppGraph.getGraph();
 		graph.createBounds();
-		reverseGraph = (GraphBounds)WebAppGraph.getGraph();
+		reverseGraph = (GraphBounds)AppGraph.getGraph();
 		reverseGraph.reverseGraph();
 		short graphType = 1;
 		BoundsRoute bounds = new BoundsRoute(graph, graphType);

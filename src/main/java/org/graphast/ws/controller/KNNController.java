@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.inject.Named;
 
+import org.graphast.app.AppGraph;
 import org.graphast.enums.GraphBoundsType;
 import org.graphast.model.GraphBounds;
 import org.graphast.query.knn.BoundsKNNTC;
@@ -13,7 +14,6 @@ import org.graphast.query.knn.KNNTCSearch;
 import org.graphast.query.knn.NearestNeighbor;
 import org.graphast.util.DateUtils;
 import org.graphast.ws.model.KNNResult;
-import org.graphast.ws.model.WebAppGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,7 +38,7 @@ public class KNNController {
 		
 		log.debug("Atividade - GET (id)");
 		GraphBounds graph;
-		graph = (GraphBounds)WebAppGraph.getGraph();
+		graph = (GraphBounds)AppGraph.getGraph();
 		graph.createBounds();
 		
 		//calculate or load bounds
