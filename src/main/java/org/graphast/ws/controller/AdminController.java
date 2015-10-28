@@ -5,6 +5,7 @@ import java.util.List;
 import javax.inject.Named;
 
 import org.graphast.app.AppGraph;
+import org.graphast.app.GraphInfo;
 import org.graphast.app.GraphService;
 import org.graphast.config.Configuration;
 import org.graphast.geometry.BBox;
@@ -31,7 +32,7 @@ public class AdminController {
 	}
 
 	@RequestMapping(value="/apps", method = RequestMethod.GET)
-	public @ResponseBody List<String> apps() {
+	public @ResponseBody List<GraphInfo> apps() {
 		log.debug("apps");
 		return Configuration.getApps();
 	}
@@ -43,17 +44,15 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/reload", method = RequestMethod.GET)
-	public @ResponseBody String reload() {
+	public @ResponseBody GraphInfo reload() {
 		log.debug("reload");
-		service.load(null);
-		return "Graph Dir: " + AppGraph.getGraphDir();
+		return service.load(null);
 	}
 
 	@RequestMapping(value="/load/{app}", method = RequestMethod.GET)
-	public @ResponseBody String load(@PathVariable String app) {
+	public @ResponseBody GraphInfo load(@PathVariable String app) {
 		log.debug("load {}", app);
-		service.load(app);
-		return "Graph Dir: " + AppGraph.getGraphDir();
+		return service.load(app);
 	}
 	
 	@RequestMapping(value="/bbox", method = RequestMethod.GET)
@@ -61,6 +60,12 @@ public class AdminController {
 		log.debug("BBox");
 		Graph graph = AppGraph.getGraph();
 		return graph.getBBox();
+	}
+	
+	@RequestMapping(value="/create/{url}", method = RequestMethod.GET)
+	public @ResponseBody GraphInfo create(@PathVariable String url) {
+		log.debug("create");
+		return service.create(null, url);
 	}
 	
 }
