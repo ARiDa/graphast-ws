@@ -28,7 +28,7 @@ public class KNNController {
 	private Logger log = LoggerFactory.getLogger(this.getClass());
 
 	@RequestMapping(method = RequestMethod.GET)
-	public @ResponseBody String shortestPath() {
+	public @ResponseBody String index() {
 		return "kNN Service"; 
 	}
 	

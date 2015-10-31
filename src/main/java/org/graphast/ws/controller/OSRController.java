@@ -27,7 +27,7 @@ public class OSRController {
 	private Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public @ResponseBody String osr() {
+	public @ResponseBody String index() {
 		log.debug("OSR service");
 		return "OSR"; 
 	}
