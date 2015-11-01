@@ -64,7 +64,7 @@ public class GraphController {
 
 	@RequestMapping(value="/categories", method = RequestMethod.GET)
 	public @ResponseBody List<Integer> categories() {
-		log.debug("POI Catagories");
+		log.debug("POI Categories");
 		Graph graph = AppGraph.getGraph();
 		return graph.getPOICategories();
 	}
