@@ -1,17 +1,20 @@
 package org.graphast.ws.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Named;
 
 import org.graphast.app.GraphInfo;
 import org.graphast.app.GraphService;
 import org.graphast.config.Configuration;
+import org.graphast.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Named
@@ -40,10 +43,19 @@ public class AdminController {
 		return service.load(app);
 	}
 	
-	@RequestMapping(value="/create/{url}", method = RequestMethod.GET)
-	public @ResponseBody GraphInfo create(@PathVariable String url) {
+	@RequestMapping(value="/create", method = RequestMethod.POST)
+	public @ResponseBody GraphInfo create(@RequestParam Map<String, String> params) {
 		log.debug("create");
-		return service.create(null, url);
+		GraphInfo graphInfo = new GraphInfo();
+		graphInfo.setAppName(params.get("app"));
+		graphInfo.setCosts(params.get("costs"));
+		graphInfo.setGraphDir(params.get("dir"));
+		graphInfo.setImporter(params.get("importer"));
+		graphInfo.setNetwork(params.get("network"));
+		graphInfo.setPoiCategoryFilter(StringUtils.splitIntToList(",", params.get("poi-category-filter")));
+		graphInfo.setPois(params.get("pois"));
+		service.create(graphInfo);
+		return graphInfo;
 	}
 	
 }
