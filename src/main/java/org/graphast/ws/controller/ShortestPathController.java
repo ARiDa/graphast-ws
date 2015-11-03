@@ -8,6 +8,7 @@ import org.graphast.app.AppGraph;
 import org.graphast.model.Graph;
 import org.graphast.query.route.shortestpath.AbstractShortestPathService;
 import org.graphast.query.route.shortestpath.astar.AStarConstantWeight;
+import org.graphast.query.route.shortestpath.astar.AStarLinearFunction;
 import org.graphast.query.route.shortestpath.dijkstra.DijkstraConstantWeight;
 import org.graphast.query.route.shortestpath.dijkstra.DijkstraLinearFunction;
 import org.graphast.query.route.shortestpath.model.Path;
@@ -74,7 +75,7 @@ public class ShortestPathController {
 	public @ResponseBody Path shortestPathAStar(@PathVariable Double lat1, 
 			@PathVariable Double long1, @PathVariable Double lat2, @PathVariable Double long2) {
 		
-		log.debug("Atividade - GET (id)");
+		log.debug("aStar");
 		Graph graph;
 		graph = AppGraph.getGraph();
 		
@@ -84,5 +85,31 @@ public class ShortestPathController {
 		Path path = sp.shortestPath(source, target);
 		return path;
 	}
+
+	@RequestMapping(value="a*/{lat1}/{long1}/{lat2}/{long2}/{hour}/{minute}", method = RequestMethod.GET)
+	public @ResponseBody Path aStarTD(@PathVariable Double lat1, 
+			@PathVariable Double long1, @PathVariable Double lat2, @PathVariable Double long2, 
+			@PathVariable int hour, @PathVariable int minute) {
+		
+		return aStarTD(lat1, long1, lat2, long2, 0, hour, minute);
+	}
+	
+	@RequestMapping(value="a*/{lat1}/{long1}/{lat2}/{long2}/{dayOfWeek}/{hour}/{minute}", method = RequestMethod.GET)
+	public @ResponseBody Path aStarTD(@PathVariable Double lat1, 
+			@PathVariable Double long1, @PathVariable Double lat2, @PathVariable Double long2, 
+			@PathVariable int dayOfWeek, @PathVariable int hour, @PathVariable int minute) {
+
+		log.debug("aStarTD");
+		Graph graph;
+		graph = AppGraph.getGraph();
+		
+		AbstractShortestPathService sp = new AStarLinearFunction(graph);
+		Date d = DateUtils.parseDate(hour, minute, 0);
+		long source = graph.getNodeId(lat1, long1);
+		long target = graph.getNodeId(lat2, long2);
+		Path path = sp.shortestPath(source, target, d);
+		return path;
+	}
+	
 	
 }
