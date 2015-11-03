@@ -1,6 +1,7 @@
 package org.graphast.ws.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Named;
 
@@ -68,5 +69,12 @@ public class GraphController {
 		Graph graph = AppGraph.getGraph();
 		return graph.getPOICategories();
 	}
+	
+	@RequestMapping(value="/allcategories", method = RequestMethod.GET)
+	public @ResponseBody Map<Integer, String> allCategories() {
+		log.debug("All POI Categories");
+		return AppGraph.getAllPoiCategories();
+	}
+	
 	
 }
