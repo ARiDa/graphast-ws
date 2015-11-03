@@ -36,6 +36,12 @@ public class AdminController {
 		log.debug("apps");
 		return Configuration.getApps();
 	}
+
+	@RequestMapping(value="/app-names", method = RequestMethod.GET)
+	public @ResponseBody List<String> appNames() {
+		log.debug("app-names");
+		return Configuration.getAppNames();
+	}
 	
 	@RequestMapping(value="/load/{app}", method = RequestMethod.GET)
 	public @ResponseBody GraphInfo load(@PathVariable String app) {
@@ -54,6 +60,7 @@ public class AdminController {
 		graphInfo.setNetwork(params.get("network"));
 		graphInfo.setPoiCategoryFilter(StringUtils.splitIntToList(",", params.get("poi-category-filter")));
 		graphInfo.setPois(params.get("pois"));
+		graphInfo.setQueryServices(params.get("query-services"));
 		service.create(graphInfo);
 		return graphInfo;
 	}
