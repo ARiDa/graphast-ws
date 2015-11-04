@@ -76,5 +76,18 @@ public class GraphController {
 		return AppGraph.getAllPoiCategories();
 	}
 	
+	@RequestMapping(value="/query-services", method = RequestMethod.GET)
+	public @ResponseBody String[] queryServices() {
+		log.debug("Query Services");
+		String queryServices = Configuration.getProperty(Configuration.getSelectedApp(), "query-services");
+		return queryServices != null ? queryServices.split("\\s*,\\s*") : null;
+	}
+
+	@RequestMapping(value="/query-services/{app}", method = RequestMethod.GET)
+	public @ResponseBody String[] pois(@PathVariable String app) {
+		log.debug("Query Services of a given App");
+		String queryServices = Configuration.getProperty(app, "query-services"); 
+		return queryServices != null ? queryServices.split("\\s*,\\s*") : null;
+	}
 	
 }

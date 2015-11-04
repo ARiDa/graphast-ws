@@ -48,6 +48,13 @@ public class AdminController {
 		log.debug("load {}", app);
 		return service.load(app);
 	}
+
+	@RequestMapping(value="/delete/{app}", method = RequestMethod.GET)
+	public @ResponseBody String delete(@PathVariable String app) {
+		log.debug("delete {}", app);
+		service.delete(app);
+		return "Application " + app + " removed successfully";
+	}
 	
 	@RequestMapping(value="/create", method = RequestMethod.POST)
 	public @ResponseBody GraphInfo create(@RequestParam Map<String, String> params) {

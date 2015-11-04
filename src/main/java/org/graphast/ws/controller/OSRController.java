@@ -45,7 +45,7 @@ public class OSRController {
 
 		Date date = DateUtils.parseDate(hour, minute, 0);
 
-		String[] cat = categoriesString.split(",");
+		String[] cat = categoriesString.split("\\s*,\\s*");
 		List<Integer> categories = new ArrayList<Integer>();
 		for(int i = 0; i < cat.length; i++) {
 			categories.add(Integer.parseInt(cat[i]));
