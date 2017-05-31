@@ -21,11 +21,6 @@
 			<artifactId>javax.inject</artifactId>
 			<version>1</version>
 		</dependency>
-		<dependency>
-    		<groupId>org.graphast</groupId>
-    		<artifactId>graphast-core</artifactId>
-    		<version>0.1.6-SNAPSHOT</version>
-		</dependency> 
 
 		<!-- Logging with SLF4J -->
 		<dependency>
@@ -53,7 +48,7 @@
 		<dependency>
 			<groupId>org.graphast</groupId>
 			<artifactId>graphast-core</artifactId>
-			<version>0.1.8</version>
+			<version>0.1.9</version>
 		</dependency>
 	</dependencies>
 
